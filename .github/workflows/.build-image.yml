@@ -1,0 +1,22 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main  # Change to your desired branch if needed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - name: Build Docker image
+        run: |
+          docker build -t ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:latest .
+
+      - name: Push Docker image to GitHub Docker Registry
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:latest
