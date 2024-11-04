@@ -12,7 +12,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        
+      - name: Log in to GitHub Docker Registry
+        env:
+          CR_PAT: ${{ secrets.CONTAINERREGISTRY }}
+        run: echo $CR_PAT | docker login ghcr.io -u ${{ github.actor }} --password-stdin   
       - name: Build Docker image
         run: |
           docker build -t ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:latest .
